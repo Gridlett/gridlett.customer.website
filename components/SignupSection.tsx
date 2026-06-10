@@ -34,36 +34,36 @@ const TIERS = [
   {
     id: '1' as const,
     name: 'Essential',
-    watt: '200W',
-    price: '₦8,000',
+    watt: '300W',
+    price: '₦13,000',
     sub: '/month',
-    description: 'Lighting, phone charging, and a small fan. Perfect for a single room.',
-    includes: ['4 LED bulbs', 'Phone & device charging', '1 small fan'],
+    description: 'Lighting, phone charging, fan, and a table-top fridge.',
+    includes: ['LED bulbs & devices', 'Phone charging', '1 standing fan', 'Table-top refrigerator allowed'],
     icon: Wifi,
     color: 'emerald',
   },
   {
     id: '2' as const,
     name: 'Standard',
-    watt: '500W',
-    price: '₦15,000',
+    watt: '1,200W',
+    price: '₦27,000',
     sub: '/month',
-    description: 'Full lighting, TV, and fridge. Covers a typical 2-room apartment.',
-    includes: ['Everything in Essential', '32" TV or equivalent', 'Small refrigerator'],
+    description: 'Full lighting, TV, fans, and an efficient refrigerator.',
+    includes: ['Everything in Essential', '32" LED TV & decoder', 'Efficient refrigerator / freezer'],
     icon: Tv,
-    color: 'amber',
+    color: 'blue',
     badge: 'Most popular',
   },
   {
     id: '3' as const,
     name: 'Premium',
-    watt: '1,000W',
-    price: '₦25,000',
+    watt: '2,300W',
+    price: '₦45,000',
     sub: '/month',
-    description: 'High-draw appliances, AC unit, and full household loads.',
-    includes: ['Everything in Standard', 'Air conditioning unit', 'Washing machine / iron'],
+    description: 'High-draw appliances, water pump, or a single inverter air conditioner.',
+    includes: ['Everything in Standard', '1 Inverter Air Conditioner (1HP)', 'Intermittent washing machine / iron'],
     icon: Wind,
-    color: 'amber',
+    color: 'blue',
   },
 ]
 
@@ -78,10 +78,10 @@ function TierCard({
   selected: boolean
   onSelect: () => void
 }) {
-  const isAmber   = tier.color === 'amber'
-  const accentClr = isAmber ? '#F59E0B' : '#10B981'
-  const accentBg  = isAmber ? 'rgba(245,158,11,0.08)' : 'rgba(16,185,129,0.08)'
-  const accentBdr = isAmber ? 'rgba(245,158,11,0.3)' : 'rgba(16,185,129,0.3)'
+  const isBlue    = tier.color === 'blue'
+  const accentClr = isBlue ? '#3b82f6' : '#10B981'
+  const accentBg  = isBlue ? 'rgba(59,130,246,0.08)' : 'rgba(16,185,129,0.08)'
+  const accentBdr = isBlue ? 'rgba(59,130,246,0.3)' : 'rgba(16,185,129,0.3)'
   const Icon      = tier.icon
 
   return (
@@ -99,8 +99,8 @@ function TierCard({
       {/* Badge */}
       {tier.badge && (
         <div className="absolute top-3 right-3">
-          <span className="text-[10px] font-bold tracking-wider uppercase px-2.5 py-1 rounded-full text-black"
-            style={{ background: 'linear-gradient(135deg, #FCD34D, #F59E0B)' }}>
+          <span className="text-[10px] font-bold tracking-wider uppercase px-2.5 py-1 rounded-full text-white"
+            style={{ background: 'linear-gradient(135deg, #60a5fa, #3b82f6)' }}>
             {tier.badge}
           </span>
         </div>
@@ -229,16 +229,16 @@ function TenantSignupForm({
 
       {/* Current tier summary */}
       <div className="flex items-center gap-3 p-4 rounded-xl"
-        style={{ background: 'rgba(245,158,11,0.06)', border: '1px solid rgba(245,158,11,0.15)' }}>
-        <Sun className="w-4 h-4 text-amber-400 shrink-0" />
+        style={{ background: 'rgba(59,130,246,0.06)', border: '1px solid rgba(59,130,246,0.15)' }}>
+        <Sun className="w-4 h-4 text-blue-400 shrink-0" />
         <p className="text-sm text-brand-text">
           Subscribing to{' '}
-          <span className="font-semibold text-amber-400">
+          <span className="font-semibold text-blue-400">
             Tier {selectedTier} — {TIERS.find(t => t.id === selectedTier)?.name}
           </span>
           {' '}({TIERS.find(t => t.id === selectedTier)?.watt} cap)
         </p>
-        <span className="ml-auto text-sm font-bold text-amber-400">
+        <span className="ml-auto text-sm font-bold text-blue-400">
           {TIERS.find(t => t.id === selectedTier)?.price}
           <span className="text-xs text-brand-muted font-normal">/mo</span>
         </span>
@@ -247,8 +247,8 @@ function TenantSignupForm({
       <button
         type="submit"
         disabled={isSubmitting}
-        className="btn-primary w-full flex items-center justify-center gap-2 py-4 rounded-2xl font-bold text-black font-display text-base disabled:opacity-60 disabled:cursor-not-allowed"
-        style={{ background: 'linear-gradient(135deg, #FCD34D, #F59E0B)', boxShadow: '0 4px 20px rgba(245,158,11,0.25)' }}>
+        className="btn-primary w-full flex items-center justify-center gap-2 py-4 rounded-2xl font-bold text-white font-display text-base disabled:opacity-60 disabled:cursor-not-allowed"
+        style={{ background: 'linear-gradient(135deg, #60a5fa, #3b82f6)', boxShadow: '0 4px 20px rgba(59,130,246,0.25)' }}>
         {isSubmitting ? (
           <>
             <Loader2 className="w-5 h-5 animate-spin" />
@@ -256,7 +256,7 @@ function TenantSignupForm({
           </>
         ) : (
           <>
-            <Zap className="w-5 h-5" fill="black" />
+            <Zap className="w-5 h-5" fill="white" />
             Request power access
           </>
         )}
@@ -386,7 +386,7 @@ function SuccessState({
   onReset: () => void
 }) {
   const isTenant = type === 'tenant'
-  const accentClr = isTenant ? '#F59E0B' : '#10B981'
+  const accentClr = isTenant ? '#3b82f6' : '#10B981'
 
   return (
     <div className="flex flex-col items-center text-center py-10 px-4">
@@ -413,7 +413,7 @@ function SuccessState({
       </p>
       <p className="text-xs text-brand-muted mb-8">
         Questions? Email{' '}
-        <a href="mailto:operations@gridlett.com" className="hover:text-amber-400 transition-colors underline underline-offset-2">
+        <a href="mailto:operations@gridlett.com" className="hover:text-blue-400 transition-colors underline underline-offset-2">
           operations@gridlett.com
         </a>
       </p>
@@ -447,7 +447,7 @@ export default function SignupSection() {
           <p className="text-xs font-semibold tracking-widest text-emerald-400 uppercase mb-3">Get started</p>
           <h2 className="font-display text-3xl md:text-4xl font-bold text-white">
             Choose your{' '}
-            <span className="text-gradient-amber">power tier</span>
+            <span className="text-gradient-blue">power tier</span>
             , then sign up
           </h2>
           <p className="mt-4 text-brand-text max-w-lg mx-auto text-sm leading-relaxed">
@@ -480,13 +480,13 @@ export default function SignupSection() {
                   onClick={() => setActiveTab('tenant')}
                   className="flex-1 flex items-center justify-center gap-2 py-4 text-sm font-semibold transition-all relative"
                   style={{
-                    color: activeTab === 'tenant' ? '#F59E0B' : '#64748B',
-                    background: activeTab === 'tenant' ? 'rgba(245,158,11,0.05)' : 'transparent',
+                    color: activeTab === 'tenant' ? '#3b82f6' : '#64748B',
+                    background: activeTab === 'tenant' ? 'rgba(59, 130, 246, 0.05)' : 'transparent',
                   }}>
                   <Home className="w-4 h-4" />
                   I&apos;m a tenant
                   {activeTab === 'tenant' && (
-                    <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-amber-400 rounded-t-full" />
+                    <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-blue-400 rounded-t-full" />
                   )}
                 </button>
                 <button

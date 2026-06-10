@@ -15,9 +15,9 @@ module.exports = {
           border:  '#1E2D45',
           muted:   '#64748B',
           text:    '#CBD5E1',
-          amber:   '#F59E0B',
-          'amber-light': '#FCD34D',
-          'amber-dim':   '#92600A',
+          blue:    '#3b82f6',
+          'blue-light':  '#60a5fa',
+          'blue-dim':    '#1d4ed8',
           emerald: '#10B981',
           'emerald-light': '#34D399',
           'emerald-dim':   '#065F46',
@@ -31,7 +31,7 @@ module.exports = {
         'pulse-slow':   'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
         'spin-slow':    'spin 8s linear infinite',
         'float':        'float 6s ease-in-out infinite',
-        'glow-amber':   'glowAmber 2s ease-in-out infinite alternate',
+        'glow-blue':    'glowBlue 2s ease-in-out infinite alternate',
         'glow-emerald': 'glowEmerald 2s ease-in-out infinite alternate',
       },
       keyframes: {
@@ -39,9 +39,9 @@ module.exports = {
           '0%, 100%': { transform: 'translateY(0px)' },
           '50%':      { transform: 'translateY(-12px)' },
         },
-        glowAmber: {
-          from: { boxShadow: '0 0 20px rgba(245,158,11,0.3)' },
-          to:   { boxShadow: '0 0 60px rgba(245,158,11,0.6)' },
+        glowBlue: {
+          from: { boxShadow: '0 0 20px rgba(59, 130, 246, 0.3)' },
+          to:   { boxShadow: '0 0 60px rgba(59, 130, 246, 0.6)' },
         },
         glowEmerald: {
           from: { boxShadow: '0 0 20px rgba(16,185,129,0.3)' },

@@ -5,8 +5,8 @@
 @tailwind utilities;
 
 :root {
-  --amber: #F59E0B;
-  --amber-light: #FCD34D;
+  --blue: #3b82f6;
+  --blue-light: #60a5fa;
   --emerald: #10B981;
   --emerald-light: #34D399;
   --surface: #111827;
@@ -56,8 +56,8 @@ body {
 }
 
 .field-input:focus {
-  border-color: #F59E0B;
-  box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.12);
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.12);
 }
 
 .field-input.error {
@@ -79,7 +79,7 @@ body {
 ::-webkit-scrollbar { width: 6px; }
 ::-webkit-scrollbar-track { background: #080D1A; }
 ::-webkit-scrollbar-thumb { background: #1E2D45; border-radius: 3px; }
-::-webkit-scrollbar-thumb:hover { background: #F59E0B44; }
+::-webkit-scrollbar-thumb:hover { background: #3b82f644; }
 
 /* Pulse ring animation */
 @keyframes ring-pulse {
@@ -96,8 +96,8 @@ body {
 }
 
 /* Ambient gradient orb */
-.orb-amber {
-  background: radial-gradient(circle, rgba(245,158,11,0.25) 0%, transparent 70%);
+.orb-blue {
+  background: radial-gradient(circle, rgba(59,130,246,0.25) 0%, transparent 70%);
   filter: blur(40px);
 }
 
@@ -107,8 +107,8 @@ body {
 }
 
 /* Gradient text */
-.text-gradient-amber {
-  background: linear-gradient(135deg, #FCD34D, #F59E0B, #D97706);
+.text-gradient-blue {
+  background: linear-gradient(135deg, #60a5fa, #3b82f6, #1d4ed8);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -138,8 +138,8 @@ body {
   transition: opacity 0.25s ease;
 }
 
-.tier-card.active-amber::before {
-  background: linear-gradient(135deg, rgba(245,158,11,0.12), transparent);
+.tier-card.active-blue::before {
+  background: linear-gradient(135deg, rgba(59,130,246,0.12), transparent);
   opacity: 1;
 }
 
@@ -174,7 +174,7 @@ body {
 
 .btn-primary:hover {
   transform: translateY(-1px);
-  box-shadow: 0 8px 30px rgba(245,158,11,0.35);
+  box-shadow: 0 8px 30px rgba(59,130,246,0.35);
 }
 
 .btn-primary:active {
