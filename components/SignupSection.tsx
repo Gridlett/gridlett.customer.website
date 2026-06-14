@@ -38,15 +38,7 @@ const tenantSchema = z.object({
                   .regex(/[^A-Za-z0-9]/, 'Must contain at least one special character'),
 })
 
-const ownerSchema = z.object({
-  name:         z.string().min(2, 'Name must be at least 2 characters'),
-  address:      z.string().min(10, 'Please enter the full property address'),
-  capacity:     z.string().min(1, 'Please estimate solar/battery capacity'),
-  contact:      z.string().min(7, 'Enter a valid email or phone number'),
-})
-
 type TenantForm = z.infer<typeof tenantSchema>
-type OwnerForm  = z.infer<typeof ownerSchema>
 
 // Helper to parse plan description split by ||
 const parsePlanDescription = (desc: string) => {
@@ -184,12 +176,10 @@ function TenantSignupForm({
   selectedPlanId,
   setSelectedPlanId,
   plans,
-  onSuccess,
 }: {
   selectedPlanId: string
   setSelectedPlanId: (id: string) => void
   plans: any[]
-  onSuccess: () => void
 }) {
   const {
     register,
@@ -303,7 +293,27 @@ function TenantSignupForm({
         throw new Error(respData.message || 'Failed to submit registration. Please try again.')
       }
 
-      onSuccess()
+      // Perform automatic login immediately after signup succeeds
+      const loginRes = await fetch(`${baseUrl}/v1/Auth/Login`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          email: null,
+          phone: data.whatsapp,
+          password: data.password,
+        }),
+      })
+
+      const loginData = await loginRes.json().catch(() => ({}))
+      if (!loginRes.ok || loginData.status === false || !loginData.data?.accessToken) {
+        throw new Error(loginData.message || 'Registration succeeded, but automatic login failed. Please log in manually on the portal.')
+      }
+
+      // Redirect to the portal /login-link page with token as access-data query parameter
+      const portalUrl = process.env.NEXT_PUBLIC_PORTAL_URL || 'http://localhost:3000'
+      window.location.href = `${portalUrl}/login-link?access-data=${encodeURIComponent(loginData.data.accessToken)}`
     } catch (err: any) {
       setApiError(err.message)
     } finally {
@@ -521,178 +531,6 @@ function TenantSignupForm({
   )
 }
 
-// ── Owner Form ─────────────────────────────────────────────────
-
-const CAPACITY_OPTIONS = [
-  'Under 1kW (starter system)',
-  '1 – 3kW (small property)',
-  '3 – 5kW (medium block)',
-  '5 – 10kW (large facility)',
-  '10kW+ (commercial)',
-]
-
-function OwnerRegistrationForm({ onSuccess }: { onSuccess: () => void }) {
-  const {
-    register,
-    handleSubmit,
-    formState: { errors, isSubmitting },
-  } = useForm<OwnerForm>({ resolver: zodResolver(ownerSchema) })
-
-  const onSubmit = async (data: OwnerForm) => {
-    await new Promise((r) => setTimeout(r, 1800))
-    console.log('Owner registration:', data)
-    onSuccess()
-  }
-
-  return (
-    <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
-      <div className="grid sm:grid-cols-2 gap-5">
-        <div>
-          <label className="field-label">Your name</label>
-          <input
-            {...register('name')}
-            placeholder="e.g. Mr. Emeka Obi"
-            className={`field-input ${errors.name ? 'error' : ''}`}
-          />
-          {errors.name && (
-            <p className="text-xs text-red-400 mt-1.5">{errors.name.message}</p>
-          )}
-        </div>
-        <div>
-          <label className="field-label">Contact (email or phone)</label>
-          <input
-            {...register('contact')}
-            placeholder="you@email.com or 0801..."
-            className={`field-input ${errors.contact ? 'error' : ''}`}
-          />
-          {errors.contact && (
-            <p className="text-xs text-red-400 mt-1.5">{errors.contact.message}</p>
-          )}
-        </div>
-      </div>
-
-      <div>
-        <label className="field-label">Property address</label>
-        <input
-          {...register('address')}
-          placeholder="e.g. 12 Adeleke Close, Surulere, Lagos"
-          className={`field-input ${errors.address ? 'error' : ''}`}
-        />
-        {errors.address && (
-          <p className="text-xs text-red-400 mt-1.5">{errors.address.message}</p>
-        )}
-      </div>
-
-      <div>
-        <label className="field-label">Estimated solar / battery capacity</label>
-        <select
-          {...register('capacity')}
-          className={`field-input appearance-none ${errors.capacity ? 'error' : ''}`}
-          style={{ cursor: 'pointer' }}>
-          <option value="" style={{ background: '#0D1525' }}>Select capacity range…</option>
-          {CAPACITY_OPTIONS.map((opt) => (
-            <option key={opt} value={opt} style={{ background: '#0D1525' }}>{opt}</option>
-          ))}
-        </select>
-        {errors.capacity && (
-          <p className="text-xs text-red-400 mt-1.5">{errors.capacity.message}</p>
-        )}
-      </div>
-
-      <div className="p-4 rounded-xl"
-        style={{ background: 'rgba(16,185,129,0.06)', border: '1px solid rgba(16,185,129,0.15)' }}>
-        <div className="flex items-start gap-3">
-          <Battery className="w-4 h-4 text-emerald-400 shrink-0 mt-0.5" />
-          <p className="text-xs text-brand-text leading-relaxed">
-            As a property partner, Gridlett provisions the control layer on your existing solar infrastructure.
-            You keep ownership of the hardware; we handle subscriptions, monitoring, and fair usage enforcement.
-            Revenue share is paid monthly.
-          </p>
-        </div>
-      </div>
-
-      <button
-        type="submit"
-        disabled={isSubmitting}
-        className="btn-primary w-full flex items-center justify-center gap-2 py-4 rounded-2xl font-bold text-white font-display text-base disabled:opacity-60 disabled:cursor-not-allowed"
-        style={{ background: 'linear-gradient(135deg, #065F46, #10B981)', boxShadow: '0 4px 20px rgba(16,185,129,0.25)' }}>
-        {isSubmitting ? (
-          <>
-            <Loader2 className="w-5 h-5 animate-spin" />
-            Submitting…
-          </>
-        ) : (
-          <>
-            <Building2 className="w-5 h-5" />
-            Register my property
-          </>
-        )}
-      </button>
-    </form>
-  )
-}
-
-// ── Success State ──────────────────────────────────────────────
-
-function SuccessState({
-  type,
-  onReset,
-}: {
-  type: 'tenant' | 'owner'
-  onReset: () => void
-}) {
-  const isTenant = type === 'tenant'
-  const accentClr = isTenant ? '#3b82f6' : '#10B981'
-
-  useEffect(() => {
-    if (isTenant) {
-      const portalUrl = process.env.NEXT_PUBLIC_PORTAL_URL || 'http://localhost:3000'
-      const timer = setTimeout(() => {
-        window.location.href = `${portalUrl}/login`
-      }, 3000)
-      return () => clearTimeout(timer)
-    }
-  }, [isTenant])
-
-  return (
-    <div className="flex flex-col items-center text-center py-10 px-4">
-      {/* Animated checkmark */}
-      <div className="relative w-24 h-24 mb-6">
-        <div className="absolute inset-0 rounded-full opacity-20 animate-ping"
-          style={{ background: accentClr }} />
-        <div className="relative w-24 h-24 rounded-full flex items-center justify-center"
-          style={{
-            background: `radial-gradient(circle, ${accentClr}22, transparent)`,
-            border: `2px solid ${accentClr}44`,
-          }}>
-          <CheckCircle2 className="w-12 h-12" style={{ color: accentClr }} />
-        </div>
-      </div>
-
-      <h3 className="font-display text-2xl font-bold text-white mb-3">
-        Registration received!
-      </h3>
-      <p className="text-brand-text max-w-sm leading-relaxed text-sm mb-2">
-        {isTenant
-          ? "Account created successfully! Redirecting you to the portal to make payment and activate your subscription..."
-          : "Welcome to the Gridlett partner network. Our team will reach out within 24 hours to walk you through the provisioning process."}
-      </p>
-      <p className="text-xs text-brand-muted mb-8">
-        Questions? Email{' '}
-        <a href="mailto:operations@gridlett.com" className="hover:text-blue-400 transition-colors underline underline-offset-2">
-          operations@gridlett.com
-        </a>
-      </p>
-
-      <button
-        onClick={onReset}
-        className="flex items-center gap-2 text-sm font-semibold px-5 py-2.5 rounded-xl transition-all hover:opacity-80"
-        style={{ border: `1px solid ${accentClr}33`, color: accentClr }}>
-        ← Submit another registration
-      </button>
-    </div>
-  )
-}
 
 // ── Tier Card Skeleton ─────────────────────────────────────────
 
@@ -728,14 +566,9 @@ function TierCardSkeleton() {
 // ── Main SignupSection ─────────────────────────────────────────
 
 export default function SignupSection() {
-  const [activeTab, setActiveTab]           = useState<'tenant' | 'owner'>('tenant')
   const [plans, setPlans]                   = useState<any[]>([])
   const [selectedPlanId, setSelectedPlanId] = useState<string>('')
   const [isLoadingPlans, setIsLoadingPlans] = useState<boolean>(true)
-  const [successState, setSuccessState]     = useState<null | 'tenant' | 'owner'>(null)
-
-  const handleSuccess = () => setSuccessState(activeTab)
-  const handleReset   = () => setSuccessState(null)
 
   useEffect(() => {
     const fetchPlans = async () => {
@@ -778,7 +611,7 @@ export default function SignupSection() {
             , then sign up
           </h2>
           <p className="mt-4 text-brand-text max-w-lg mx-auto text-sm leading-relaxed">
-            Pick the usage level that fits your needs. Then register as a tenant or property partner below.
+            Pick the usage level that fits your needs. Then register as a tenant below.
           </p>
         </div>
 
@@ -814,80 +647,27 @@ export default function SignupSection() {
           <div className="glass-card rounded-3xl overflow-hidden"
             style={{ boxShadow: '0 24px 80px rgba(0,0,0,0.4)' }}>
 
-            {/* Tab bar */}
-            {!successState && (
-              <div className="flex border-b border-brand-border/60">
-                <button
-                  type="button"
-                  onClick={() => setActiveTab('tenant')}
-                  className="flex-1 flex items-center justify-center gap-2 py-4 text-sm font-semibold transition-all relative"
-                  style={{
-                    color: activeTab === 'tenant' ? '#3b82f6' : '#64748B',
-                    background: activeTab === 'tenant' ? 'rgba(59, 130, 246, 0.05)' : 'transparent',
-                  }}>
-                  <Home className="w-4 h-4" />
-                  I&apos;m a tenant
-                  {activeTab === 'tenant' && (
-                    <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-blue-400 rounded-t-full" />
-                  )}
-                </button>
-                <button
-                  type="button"
-                  onClick={() => setActiveTab('owner')}
-                  className="flex-1 flex items-center justify-center gap-2 py-4 text-sm font-semibold transition-all relative"
-                  style={{
-                    color: activeTab === 'owner' ? '#10B981' : '#64748B',
-                    background: activeTab === 'owner' ? 'rgba(16,185,129,0.05)' : 'transparent',
-                  }}>
-                  <Building2 className="w-4 h-4" />
-                  I&apos;m a property partner
-                  {activeTab === 'owner' && (
-                    <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-emerald-400 rounded-t-full" />
-                  )}
-                </button>
-              </div>
-            )}
-
-            {/* Form / Success body */}
+            {/* Form body */}
             <div className="p-7 md:p-8">
-              {successState ? (
-                <SuccessState type={successState} onReset={handleReset} />
-              ) : activeTab === 'tenant' ? (
-                <>
-                  <div className="mb-6">
-                    <h3 className="font-display font-bold text-white text-xl">Tenant sign up</h3>
-                    <p className="text-sm text-brand-muted mt-1">
-                      Join an existing Gridlett-enabled property using your property code.
-                    </p>
-                  </div>
-                  <TenantSignupForm
-                    selectedPlanId={selectedPlanId}
-                    setSelectedPlanId={setSelectedPlanId}
-                    plans={plans}
-                    onSuccess={handleSuccess}
-                  />
-                </>
-              ) : (
-                <>
-                  <div className="mb-6">
-                    <h3 className="font-display font-bold text-white text-xl">Property partner registration</h3>
-                    <p className="text-sm text-brand-muted mt-1">
-                      List your property and let Gridlett manage structured energy access for your tenants.
-                    </p>
-                  </div>
-                  <OwnerRegistrationForm onSuccess={handleSuccess} />
-                </>
-              )}
+              <div className="mb-6">
+                <h3 className="font-display font-bold text-white text-xl">Tenant sign up</h3>
+                <p className="text-sm text-brand-muted mt-1">
+                  Join an existing Gridlett-enabled property using your property code.
+                </p>
+              </div>
+              <TenantSignupForm
+                selectedPlanId={selectedPlanId}
+                setSelectedPlanId={setSelectedPlanId}
+                plans={plans}
+              />
             </div>
           </div>
 
           {/* Trust footer */}
-          {!successState && (
-            <p className="text-center text-xs text-brand-muted mt-5 flex items-center justify-center gap-1.5">
-              <ChevronRight className="w-3 h-3 text-emerald-500" />
-              No payment due at signup. Activation handled by your property partner.
-            </p>
-          )}
+          <p className="text-center text-xs text-brand-muted mt-5 flex items-center justify-center gap-1.5">
+            <ChevronRight className="w-3 h-3 text-emerald-500" />
+            No payment due at signup. Activation handled by your property partner.
+          </p>
         </div>
       </div>
     </section>
