@@ -20,7 +20,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: 'Partner with Gridlett | Property Owners & Developers',
     description:
-      'Three property partnership models — Finance & Exit, Finance & Stay, and Plug In. All zero upfront. Gridlett device always ours.',
+      'Three property partnership models — Partner Financing, Plug-In Partnership, and Financing Only. All zero upfront.',
   },
   alternates: {
     canonical: 'https://gridlett.com/partners',

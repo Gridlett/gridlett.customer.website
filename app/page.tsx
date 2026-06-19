@@ -1,4 +1,4 @@
-import { Zap, Shield, BarChart3, Users, CheckCircle2, Building2, Play, Star, MessageSquare } from 'lucide-react'
+import { Zap, Shield, BarChart3, Users, CheckCircle2, Building2, ArrowRight, Play, MessageSquare, Star } from 'lucide-react'
 import SignupSection from '@/components/SignupSection'
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
@@ -356,9 +356,9 @@ export default function HomePage() {
     'logo': 'https://gridlett.com/icon.svg',
     'description': 'Gridlett is a structured electricity access system delivering reliable, clean solar power to homes and businesses in Nigeria while controlling fair usage automatically.',
     'sameAs': [
-      'https://twitter.com/gridlett',
-      'https://linkedin.com/company/gridlett',
-      'https://instagram.com/gridlett'
+      'https://x.com',
+      'https://linkedin.com',
+      'https://instagram.com'
     ],
     'contactPoint': {
       '@type': 'ContactPoint',
@@ -380,61 +380,206 @@ export default function HomePage() {
       {/* Background grid texture */}
       <div className="fixed inset-0 bg-grid-pattern opacity-30 pointer-events-none" />
 
-      {/* Ambient background blobs */}
-      <div className="fixed top-0 left-1/4 w-96 h-96 orb-blue pointer-events-none -translate-y-1/2" />
-      <div className="fixed bottom-1/4 right-0 w-80 h-80 orb-emerald pointer-events-none translate-x-1/3" />
+      {/* ── Centred energy field background ── */}
+      <div className="fixed inset-0 pointer-events-none overflow-hidden" aria-hidden="true">
+        {/* Central radial glow — blue core */}
+        <div
+          className="absolute top-[38%] left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] rounded-full animate-orb-breath-1"
+          style={{ background: 'radial-gradient(circle, rgba(59,130,246,0.10) 0%, rgba(59,130,246,0.03) 45%, transparent 70%)', filter: 'blur(40px)' }}
+        />
+        {/* Secondary emerald glow — slightly offset */}
+        <div
+          className="absolute top-[42%] left-[52%] -translate-x-1/2 -translate-y-1/2 w-[360px] h-[360px] rounded-full animate-orb-breath-2"
+          style={{ background: 'radial-gradient(circle, rgba(16,185,129,0.07) 0%, transparent 65%)', filter: 'blur(50px)' }}
+        />
+        {/* Large pulse ring 1 */}
+        <div
+          className="absolute top-[38%] left-1/2 -translate-x-1/2 -translate-y-1/2 w-[520px] h-[520px] rounded-full pulse-ring"
+          style={{ border: '1px solid rgba(59,130,246,0.06)' }}
+        />
+        {/* Large pulse ring 2 */}
+        <div
+          className="absolute top-[38%] left-1/2 -translate-x-1/2 -translate-y-1/2 w-[720px] h-[720px] rounded-full pulse-ring-delay"
+          style={{ border: '1px solid rgba(59,130,246,0.04)' }}
+        />
+        {/* Large pulse ring 3 */}
+        <div
+          className="absolute top-[38%] left-1/2 -translate-x-1/2 -translate-y-1/2 w-[920px] h-[920px] rounded-full"
+          style={{ border: '1px solid rgba(59,130,246,0.025)', animation: 'ring-pulse 4s ease-out 1.2s infinite' }}
+        />
+        {/* Far emerald ring */}
+        <div
+          className="absolute top-[38%] left-1/2 -translate-x-1/2 -translate-y-1/2 w-[1100px] h-[1100px] rounded-full"
+          style={{ border: '1px solid rgba(16,185,129,0.02)', animation: 'ring-pulse 5s ease-out 2s infinite' }}
+        />
+      </div>
 
       {/* ── NAVBAR ── */}
       <Header />
 
       {/* ── HERO ── */}
-      <section className="relative z-10 pt-36 pb-24 px-6 text-center max-w-4xl mx-auto">
-        <div className="inline-flex items-center gap-2 text-xs font-semibold px-4 py-2 rounded-full mb-8"
-          style={{ background: 'rgba(59,130,246,0.08)', border: '1px solid rgba(59,130,246,0.2)', color: '#60a5fa' }}>
-          <span className="w-1.5 h-1.5 rounded-full bg-blue-400 animate-pulse" />
-          Now active · Across Nigeria
+      <section className="relative z-10 pt-32 pb-16 px-6 max-w-5xl mx-auto">
+
+        {/* Badge */}
+        <div className="flex justify-center mb-10">
+          <div
+            className="inline-flex items-center gap-2 text-xs font-semibold px-4 py-2 rounded-full"
+            style={{ background: 'rgba(16,185,129,0.08)', border: '1px solid rgba(16,185,129,0.2)', color: '#34d399' }}
+          >
+            <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+            Managed solar infrastructure &middot; Nigeria
+          </div>
         </div>
 
-        <h1 className="font-display text-4xl md:text-6xl lg:text-7xl font-extrabold text-white leading-[1.05] tracking-tight">
-          <span className="whitespace-nowrap">Power <span className="text-gradient-blue">without</span></span>
-          {' '}<span className="text-gradient-blue">limits.</span>
-          <br />
-          <span className="text-white/70 font-light">Usage</span>{' '}
-          <span className="text-gradient-emerald">with structure.</span>
-        </h1>
+        {/* Headline */}
+        <div className="text-center mb-5">
+          <h1 className="font-display tracking-tight leading-[1.1]">
+            <span className="block text-4xl md:text-6xl lg:text-7xl font-extrabold text-white">
+              Power <span className="text-gradient-blue">without limits.</span>
+            </span>
+            <span className="block text-4xl md:text-6xl lg:text-7xl mt-1 text-white">
+              <span className="font-light text-slate-400">Usage </span>
+              <span className="font-extrabold text-gradient-emerald">with structure.</span>
+            </span>
+            <span className="block text-2xl md:text-3xl lg:text-4xl mt-2 text-slate-400 font-semibold">
+              For every shared building.
+            </span>
+          </h1>
+        </div>
 
-        <p className="mt-6 text-lg md:text-xl text-brand-text max-w-2xl mx-auto leading-relaxed">
-          Gridlett is a structured electricity access system that delivers reliable solar power
-          to multiple households — while ensuring no one ever exceeds their fair share.
+        {/* Subtext */}
+        <p className="text-center text-base md:text-lg text-brand-text max-w-xl mx-auto leading-relaxed mb-12">
+          Gridlett manages shared solar on estates, plazas, and compounds &mdash; property owners earn, residents pay fairly.
         </p>
 
-        <ProofBadges />
-
-        <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mt-10">
-          <a href="#signup"
-            className="btn-primary w-full sm:w-auto flex items-center justify-center gap-2 px-8 py-4 rounded-2xl text-white font-bold text-base font-display hover:opacity-95 transition-opacity"
-            style={{ background: 'linear-gradient(135deg, #60a5fa, #3b82f6)', boxShadow: '0 4px 24px rgba(59,130,246,0.3)' }}>
-            <Zap className="w-5 h-5" fill="white" />
-            Get connected
-          </a>
-          <a href="#how-it-works"
-            className="w-full sm:w-auto flex items-center justify-center gap-2 px-8 py-4 rounded-2xl font-semibold text-base text-brand-text hover:text-white transition-colors"
-            style={{ border: '1px solid #1E2D45' }}>
-            See how it works →
-          </a>
+        {/* Persona divider */}
+        <div className="flex items-center gap-4 mb-8">
+          <div className="flex-1 h-px" style={{ background: 'linear-gradient(to right, transparent, rgba(30,45,69,0.8))' }} />
+          <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-brand-muted px-2">Choose your path</span>
+          <div className="flex-1 h-px" style={{ background: 'linear-gradient(to left, transparent, rgba(30,45,69,0.8))' }} />
         </div>
 
-        {/* Hero orb */}
-        <div className="mt-16 relative">
-          <HeroPowerOrb />
-          <p className="text-xs text-brand-muted mt-4 tracking-widest uppercase font-medium">
-            controlled energy access
-          </p>
+        {/* Persona Cards — fully clickable */}
+        <div className="grid sm:grid-cols-2 gap-5">
+
+          {/* Property Owner — entire card is a link */}
+          <Link
+            href="/partners"
+            className="group relative rounded-3xl p-7 md:p-9 border flex flex-col hover:scale-[1.015] hover:shadow-[0_20px_60px_rgba(16,185,129,0.15)] transition-all duration-500 overflow-hidden"
+            style={{ background: 'linear-gradient(135deg, rgba(16,185,129,0.08), rgba(8,13,26,0.85))', borderColor: 'rgba(16,185,129,0.28)' }}
+          >
+            {/* Ambient hover glow */}
+            <div className="absolute -inset-px rounded-3xl bg-gradient-to-r from-emerald-500/10 to-teal-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
+            <div className="absolute -top-12 -right-12 w-40 h-40 bg-emerald-500/10 rounded-full blur-3xl opacity-30 group-hover:opacity-100 group-hover:scale-110 transition-all duration-500 pointer-events-none" />
+
+            <div className="flex items-start justify-between mb-7">
+              <div
+                className="w-12 h-12 rounded-2xl flex items-center justify-center"
+                style={{ background: 'rgba(16,185,129,0.1)', border: '1px solid rgba(16,185,129,0.25)' }}
+              >
+                <Building2 className="w-6 h-6 text-emerald-400" />
+              </div>
+              <span
+                className="text-[10px] font-bold px-2.5 py-1 rounded-full uppercase tracking-wider"
+                style={{ background: 'rgba(16,185,129,0.1)', border: '1px solid rgba(16,185,129,0.2)', color: '#34d399' }}
+              >
+                &#8358;0 to install
+              </span>
+            </div>
+
+            <p className="text-[14px] font-extrabold uppercase tracking-widest mb-2" style={{ color: 'rgba(52,211,153,0.6)' }}>
+              Partners
+            </p>
+            <h2 className="font-display text-2xl md:text-3xl font-bold text-white mb-3 leading-tight">
+              Install solar.<br />Earn passive income.
+            </h2>
+            <p className="text-sm text-brand-text leading-relaxed mb-7">
+              We finance, install, and operate the full solar system. You provide the property and earn passive income from every subscription — for as long as Gridlett operates.
+            </p>
+
+            <ul className="space-y-2.5 mb-8">
+              {[
+                'Zero upfront cost — full solar financed',
+                'We handle installation & all maintenance',
+                'Passive income starts with the first subscriber',
+              ].map((item) => (
+                <li key={item} className="flex items-start gap-2.5 text-sm text-brand-text">
+                  <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0 mt-0.5" />
+                  {item}
+                </li>
+              ))}
+            </ul>
+
+            <div
+              className="mt-auto w-full flex items-center justify-center gap-2 py-4 rounded-2xl font-bold text-sm font-display text-white group-hover:opacity-90 transition-opacity"
+              style={{ background: 'linear-gradient(135deg, #34d399, #10b981)', boxShadow: '0 4px 20px rgba(16,185,129,0.3)' }}
+            >
+              <Building2 className="w-4 h-4" />
+              See partnership models
+              <ArrowRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
+            </div>
+          </Link>
+
+          {/* Resident / Subscriber — entire card is a link */}
+          <a
+            href="#signup"
+            className="group relative rounded-3xl p-7 md:p-9 border flex flex-col hover:scale-[1.015] hover:shadow-[0_20px_60px_rgba(59,130,246,0.15)] transition-all duration-500 overflow-hidden"
+            style={{ background: 'linear-gradient(135deg, rgba(59,130,246,0.08), rgba(8,13,26,0.85))', borderColor: 'rgba(59,130,246,0.22)' }}
+          >
+            {/* Ambient hover glow */}
+            <div className="absolute -inset-px rounded-3xl bg-gradient-to-r from-blue-500/10 to-indigo-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
+            <div className="absolute -top-12 -right-12 w-40 h-40 bg-blue-500/10 rounded-full blur-3xl opacity-30 group-hover:opacity-100 group-hover:scale-110 transition-all duration-500 pointer-events-none" />
+
+            <div className="flex items-start justify-between mb-7">
+              <div
+                className="w-12 h-12 rounded-2xl flex items-center justify-center"
+                style={{ background: 'rgba(59,130,246,0.1)', border: '1px solid rgba(59,130,246,0.25)' }}
+              >
+                <Zap className="w-6 h-6 text-blue-400" />
+              </div>
+              <span
+                className="text-[10px] font-bold px-2.5 py-1 rounded-full uppercase tracking-wider"
+                style={{ background: 'rgba(59,130,246,0.1)', border: '1px solid rgba(59,130,246,0.2)', color: '#60a5fa' }}
+              >
+                3 plan tiers
+              </span>
+            </div>
+
+            <p className="text-[14px] font-extrabold uppercase tracking-widest mb-2" style={{ color: 'rgba(96,165,250,0.6)' }}>
+              Subscribers
+            </p>
+            <h2 className="font-display text-2xl md:text-3xl font-bold text-white mb-3 leading-tight">
+              Reliable power.<br />Bills you can trust.
+            </h2>
+            <p className="text-sm text-brand-text leading-relaxed mb-7">
+              Subscribe to a monthly energy plan and pay a fixed rate. No generator costs, no blackout, no surprise shared bills, no arguments with your neighbours.
+            </p>
+
+            <ul className="space-y-2.5 mb-8">
+              {[
+                'Reliable solar power around the clock',
+                'Fixed monthly cost — no bill surprises',
+                'Get your Cluster Code and subscribe in minutes',
+              ].map((item) => (
+                <li key={item} className="flex items-start gap-2.5 text-sm text-brand-text">
+                  <CheckCircle2 className="w-4 h-4 text-blue-400 shrink-0 mt-0.5" />
+                  {item}
+                </li>
+              ))}
+            </ul>
+
+            <div
+              className="mt-auto w-full flex items-center justify-center gap-2 py-4 rounded-2xl font-bold text-sm font-display text-white group-hover:opacity-90 transition-opacity"
+              style={{ background: 'linear-gradient(135deg, #60a5fa, #3b82f6)', boxShadow: '0 4px 20px rgba(59,130,246,0.25)' }}
+            >
+              <Zap className="w-4 h-4" fill="white" />
+              Subscribe Now
+              <ArrowRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
+            </div>
+          </a>
+
         </div>
       </section>
-
-      {/* ── B2B/B2C SPLIT PATHS ── */}
-      <SplitPaths />
 
       {/* ── STATS BAND ── */}
       <StatsBand />

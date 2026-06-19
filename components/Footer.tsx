@@ -7,9 +7,9 @@ export default function Footer() {
   const currentYear = new Date().getFullYear()
 
   const socialLinks = [
-    { icon: Twitter, href: 'https://twitter.com/gridlett', label: 'Twitter' },
-    { icon: Linkedin, href: 'https://linkedin.com/company/gridlett', label: 'LinkedIn' },
-    { icon: Instagram, href: 'https://instagram.com/gridlett', label: 'Instagram' },
+    { icon: Twitter, href: '#', label: 'X' },
+    { icon: Linkedin, href: '#', label: 'LinkedIn' },
+    { icon: Instagram, href: '#', label: 'Instagram' },
   ]
 
   const productLinks = [

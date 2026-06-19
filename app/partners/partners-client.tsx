@@ -13,34 +13,10 @@ import { useState } from 'react'
 
 const ARRANGEMENTS = [
   {
-    id: 'finance-exit',
-    tag: 'Arrangement 01',
-    name: 'Finance & Exit',
-    tagline: 'We finance your solar. You own it after payoff. We leave.',
-    color: '#3b82f6',
-    colorBg: 'rgba(59,130,246,0.06)',
-    colorBorder: 'rgba(59,130,246,0.25)',
-    icon: TrendingUp,
-    outcome: 'Full solar ownership at end of term. Zero ongoing commission.',
-    youBring: [
-      'Property access and tenant base',
-      'Willingness to promote Gridlett subscriptions',
-    ],
-    gridlettBrings: [
-      'Full solar panels, batteries & inverter installation',
-      'Gridlett Smart Controller (operated by us during term)',
-      'Tenant portal, billing automation & WhatsApp alerts',
-      'Technical maintenance throughout the term',
-    ],
-    duringTerm: 'Gridlett collects tenant subscription payments, operates the controller, and maintains the system. You pay nothing — costs are recovered directly through tenant plans.',
-    atCompletion: 'Hardware costs fully recovered. Gridlett removes the Smart Controller and transfers full solar ownership to you. No more commission. You operate independently.',
-    bestFor: 'Property developers who want to eventually own and run their solar infrastructure outright with zero upfront capital.',
-  },
-  {
     id: 'finance-stay',
-    tag: 'Arrangement 02',
-    name: 'Finance & Stay',
-    tagline: 'Zero capital. Perpetual passive income. We stay.',
+    tag: 'Arrangement 01',
+    name: 'Partner Financing',
+    tagline: 'Zero capital. Perpetual passive income. We become long-term partners.',
     color: '#10b981',
     colorBg: 'rgba(16,185,129,0.06)',
     colorBorder: 'rgba(16,185,129,0.30)',
@@ -63,9 +39,9 @@ const ARRANGEMENTS = [
   },
   {
     id: 'plug-in',
-    tag: 'Arrangement 03',
-    name: 'Plug In',
-    tagline: 'You have the solar. We bring the management layer.',
+    tag: 'Arrangement 02',
+    name: 'Plug-In Partnership',
+    tagline: 'You own the system. We provide the smart controls and billing automation.',
     color: '#a855f7',
     colorBg: 'rgba(168,85,247,0.06)',
     colorBorder: 'rgba(168,85,247,0.25)',
@@ -85,6 +61,29 @@ const ARRANGEMENTS = [
     duringTerm: 'Gridlett installs the Smart Controller on your existing setup and activates the platform. Tenant subscriptions go live. You collect through the partner dashboard. Gridlett takes commission.',
     atCompletion: 'No payoff term — this is an ongoing commission arrangement. Controller belongs to Gridlett. Exit is by mutual agreement with advance notice.',
     bestFor: 'Property owners with functioning solar who are losing money to battery overloads, unpaid bills, or billing disputes — and want it solved fast.',
+  },
+  {
+    id: 'finance-exit',
+    tag: 'Arrangement 03',
+    name: 'Financing Only',
+    tagline: 'We finance your solar. You own it after payoff. We leave.',
+    color: '#3b82f6',
+    colorBg: 'rgba(59,130,246,0.06)',
+    colorBorder: 'rgba(59,130,246,0.25)',
+    icon: TrendingUp,
+    outcome: 'Full solar ownership at end of term. Zero ongoing commission.',
+    youBring: [
+      'Property roof/ground space for installation',
+      'Fixed monthly financing payments',
+    ],
+    gridlettBrings: [
+      'Full solar panels, batteries & inverter installation',
+      'Gridlett Smart Controller (managed by us during term)',
+      'Uptime monitoring & full hardware maintenance during term',
+    ],
+    duringTerm: 'You make fixed monthly financing payments. Gridlett operates the controller and handles all system maintenance to ensure stable power.',
+    atCompletion: 'Financing term ends. Gridlett transfers full solar ownership to you and removes the controller. You run the system independently with zero ongoing fees.',
+    bestFor: 'Individual property owners or developers who want to buy solar on a monthly payment plan and eventually own it outright with zero operational fees.',
   },
 ]
 
@@ -118,7 +117,7 @@ const PROCESS_STEPS = [
 const PARTNER_FAQS = [
   {
     question: 'Do I need to already have solar panels to partner with Gridlett?',
-    answer: 'No. Two of our three arrangements (Finance & Exit and Finance & Stay) provide full solar installation at zero upfront cost. Only the "Plug In" arrangement requires existing solar infrastructure or independent purchase.',
+    answer: 'No. Two of our three models (Partner Financing and Financing Only) provide full solar installation at zero upfront cost. Only the "Plug-In Partnership" requires existing solar infrastructure or independent purchase.',
   },
   {
     question: 'What commission does Gridlett take?',
@@ -134,11 +133,11 @@ const PARTNER_FAQS = [
   },
   {
     question: 'Who owns the Gridlett Smart Controller?',
-    answer: 'The Gridlett Smart Controller belongs to Gridlett in every arrangement. Under Finance & Exit, it is removed at payoff. Under Finance & Stay and Plug In, it remains installed permanently. This means you never carry maintenance liability for the device.',
+    answer: 'The Gridlett Smart Controller belongs to Gridlett in every arrangement. Under Financing Only, it is removed at payoff. Under Partner Financing and Plug-In Partnership, it remains installed permanently. This means you never carry maintenance liability for the device.',
   },
   {
     question: 'What if I want to exit the partnership?',
-    answer: 'Exit terms depend on your arrangement. Finance & Exit has a natural completion point. Finance & Stay and Plug In require mutual agreement with a notice period. All terms are clearly stated in your partner agreement — no surprises.',
+    answer: 'Exit terms depend on your model. Financing Only has a natural completion point. Partner Financing and Plug-In Partnership require mutual agreement with a notice period. All terms are clearly stated in your partner agreement — no surprises.',
   },
 ]
 
@@ -255,9 +254,8 @@ function PartnerFAQItem({ question, answer }: { question: string; answer: string
   const [open, setOpen] = useState(false)
   return (
     <div
-      className={`glass-card rounded-2xl overflow-hidden border transition-all duration-300 ${
-        open ? 'border-emerald-500/40' : 'border-brand-border/40 hover:border-brand-border/80'
-      }`}
+      className={`glass-card rounded-2xl overflow-hidden border transition-all duration-300 ${open ? 'border-emerald-500/40' : 'border-brand-border/40 hover:border-brand-border/80'
+        }`}
     >
       <button
         onClick={() => setOpen(!open)}
@@ -287,96 +285,22 @@ export default function PartnersClient() {
   return (
     <div className="relative z-10 flex-1">
 
-      {/* ── HERO ── */}
-      <section className="pt-36 pb-20 px-6 text-center max-w-4xl mx-auto">
-        <div
-          className="inline-flex items-center gap-2 text-xs font-semibold px-4 py-2 rounded-full mb-8"
-          style={{ background: 'rgba(16,185,129,0.08)', border: '1px solid rgba(16,185,129,0.2)', color: '#34d399' }}
-        >
-          <Building2 className="w-3.5 h-3.5 shrink-0" />
-          For Property Owners &amp; Developers
-        </div>
-
-        <h1 className="font-display text-4xl md:text-5xl lg:text-6xl font-extrabold text-white leading-[1.05] tracking-tight mb-6">
-          Power your property.{' '}
-          <span className="text-gradient-emerald">Earn from every unit.</span>
-        </h1>
-
-        <p className="text-brand-text text-lg md:text-xl max-w-2xl mx-auto leading-relaxed mb-10">
-          Gridlett installs and operates smart solar infrastructure on your property — eliminating generator noise, billing disputes, and battery blowouts. You earn. We manage.
-        </p>
-
-        <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-          <Link
-            href="/contact"
-            className="w-full sm:w-auto flex items-center justify-center gap-2 px-8 py-4 rounded-2xl text-white font-bold text-base font-display hover:opacity-95 transition-opacity"
-            style={{ background: 'linear-gradient(135deg, #34d399, #10b981)', boxShadow: '0 4px 24px rgba(16,185,129,0.3)' }}
-          >
-            <Zap className="w-5 h-5" fill="white" />
-            Book a property assessment
-          </Link>
-          <a
-            href="#arrangements"
-            className="w-full sm:w-auto flex items-center justify-center gap-2 px-8 py-4 rounded-2xl font-semibold text-base text-brand-text hover:text-white transition-colors"
-            style={{ border: '1px solid #1E2D45' }}
-          >
-            See partnership models →
-          </a>
-        </div>
-      </section>
-
-      {/* ── DEVICE OWNERSHIP BANNER ── */}
-      <section className="px-6 max-w-5xl mx-auto mb-6">
-        <div
-          className="rounded-2xl px-6 py-5 flex items-start gap-4 border"
-          style={{ background: 'rgba(59,130,246,0.05)', borderColor: 'rgba(59,130,246,0.2)' }}
-        >
-          <Shield className="w-5 h-5 text-blue-400 shrink-0 mt-0.5" />
-          <div>
-            <p className="text-sm font-bold text-white mb-1">
-              The Gridlett Smart Controller always belongs to Gridlett — in every arrangement.
-            </p>
-            <p className="text-xs text-brand-text leading-relaxed">
-              This means zero device maintenance liability for you, guaranteed firmware and software updates, and our permanent stake in your grid's performance. You never own the controller — you benefit from it.
-            </p>
-          </div>
-        </div>
-      </section>
-
-      {/* ── QUICK STAT BAND ── */}
-      <section className="px-6 max-w-5xl mx-auto mb-20">
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-          {[
-            { value: '₦0', label: 'Upfront cost (BNPL)' },
-            { value: '99.9%', label: 'Guaranteed solar uptime' },
-            { value: '5 min', label: 'Auto tenant power restore' },
-            { value: '100%', label: 'Automated billing collection' },
-          ].map((stat) => (
-            <div
-              key={stat.label}
-              className="glass-card rounded-2xl p-5 text-center border border-brand-border/40"
-            >
-              <p className="font-display text-2xl font-extrabold text-white mb-1">{stat.value}</p>
-              <p className="text-[11px] text-brand-muted font-medium leading-tight">{stat.label}</p>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      {/* ── ARRANGEMENTS ── */}
-      <section id="arrangements" className="px-6 max-w-5xl mx-auto mb-24 border-t border-brand-border/30 pt-20">
-        <div className="text-center mb-14">
-          <span
-            className="inline-flex items-center gap-2 text-xs font-semibold px-4 py-2 rounded-full mb-4"
+      {/* ── HERO & ARRANGEMENTS ── */}
+      <section className="pt-36 pb-24 px-6 max-w-5xl mx-auto">
+        <div className="text-center mb-16">
+          <div
+            className="inline-flex items-center gap-2 text-xs font-semibold px-4 py-2 rounded-full mb-6"
             style={{ background: 'rgba(16,185,129,0.08)', border: '1px solid rgba(16,185,129,0.2)', color: '#34d399' }}
           >
-            <Wrench className="w-3.5 h-3.5 shrink-0" />
+            <Building2 className="w-3.5 h-3.5 shrink-0" />
             Partnership Models
-          </span>
-          <h2 className="font-display text-3xl md:text-4xl font-bold text-white mb-4">
-            Choose your engagement model
-          </h2>
-          <p className="text-brand-text max-w-xl mx-auto text-sm leading-relaxed">
+          </div>
+
+          <h1 className="font-display text-4xl md:text-5xl lg:text-6xl font-extrabold text-white leading-[1.05] tracking-tight mb-6">
+            Power your property.{' '}
+            <span className="text-gradient-emerald">Earn from every unit.</span>
+          </h1>
+          <p className="text-brand-text max-w-2xl mx-auto text-sm md:text-base leading-relaxed">
             Not a subscription. Not a product purchase. These are business arrangements — each designed for a different property situation. All include the Gridlett Smart Controller.
           </p>
         </div>
@@ -398,20 +322,20 @@ export default function PartnersClient() {
             <thead>
               <tr className="border-b border-brand-border/40" style={{ background: 'rgba(21,30,46,0.6)' }}>
                 <th className="text-left px-6 py-4 font-display font-bold text-brand-muted text-xs uppercase tracking-wider w-[30%]">Feature</th>
-                <th className="px-5 py-4 font-display font-bold text-blue-400 text-xs uppercase tracking-wider text-center">Finance &amp; Exit</th>
-                <th className="px-5 py-4 font-display font-bold text-emerald-400 text-xs uppercase tracking-wider text-center">Finance &amp; Stay</th>
-                <th className="px-5 py-4 font-display font-bold text-purple-400 text-xs uppercase tracking-wider text-center">Plug In</th>
+                <th className="px-5 py-4 font-display font-bold text-emerald-400 text-xs uppercase tracking-wider text-center">Partner Financing</th>
+                <th className="px-5 py-4 font-display font-bold text-purple-400 text-xs uppercase tracking-wider text-center">Plug-In Partnership</th>
+                <th className="px-5 py-4 font-display font-bold text-blue-400 text-xs uppercase tracking-wider text-center">Financing Only</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-brand-border/20">
               {[
-                { feature: 'Upfront cost', vals: ['₦0', '₦0', '₦0 (need own solar)'] },
-                { feature: 'Gridlett installs solar', vals: ['Yes', 'Yes', 'No'] },
-                { feature: 'Controller ownership', vals: ['Gridlett (removed at payoff)', 'Gridlett (permanent)', 'Gridlett (permanent)'] },
-                { feature: 'Revenue share for partner', vals: ['No (during term)', 'Yes (after cost recovery)', 'Yes (from day 1)'] },
-                { feature: 'Ongoing Gridlett commission', vals: ['No (after exit)', 'Yes (forever)', 'Yes (forever)'] },
-                { feature: 'Full solar ownership', vals: ['Yes (at term end)', 'No', 'Already yours'] },
-                { feature: 'Maintenance responsibility', vals: ['Gridlett (during term)', 'Gridlett (forever)', 'Gridlett (controller only)'] },
+                { feature: 'Upfront cost', vals: ['₦0', '₦0 (need own solar)', '₦0'] },
+                { feature: 'Gridlett installs solar', vals: ['Yes', 'No', 'Yes'] },
+                { feature: 'Controller ownership', vals: ['Gridlett', 'Gridlett ', 'Gridlett (removed at payoff)'] },
+                { feature: 'Revenue share for partner', vals: ['Yes (after cost recovery)', 'Yes (from day 1)', 'No'] },
+                { feature: 'Ongoing Gridlett commission', vals: ['Yes', 'Yes', 'No'] },
+                { feature: 'Full solar ownership', vals: ['No', 'Already yours', 'Yes (at term end)'] },
+                { feature: 'Maintenance responsibility', vals: ['Gridlett', 'Gridlett (controller only)', 'Gridlett (during term)'] },
               ].map((row, i) => (
                 <tr key={i} style={{ background: i % 2 === 0 ? 'rgba(8,13,26,0.4)' : 'transparent' }}>
                   <td className="px-6 py-4 text-brand-text font-medium">{row.feature}</td>

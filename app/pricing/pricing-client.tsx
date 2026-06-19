@@ -64,29 +64,10 @@ const PLAN_RICH_CONFIG: Record<number, any> = {
 
 const PARTNER_ARRANGEMENTS = [
   {
-    id: 'finance-exit',
-    tag: 'Arrangement 01',
-    name: 'Finance & Exit',
-    tagline: 'We finance your solar. You own it after payoff. We leave.',
-    color: '#3b82f6',
-    colorBg: 'rgba(59,130,246,0.06)',
-    colorBorder: 'rgba(59,130,246,0.25)',
-    icon: TrendingUp,
-    upfront: '₦0',
-    upfrontNote: 'BNPL — full solar financed',
-    outcome: 'Full solar ownership at end of term. No more commission.',
-    highlights: [
-      'Gridlett installs panels, batteries & inverter',
-      'Controller operated by Gridlett during term',
-      'Costs recovered through tenant subscriptions',
-      'At payoff: controller removed, solar is yours',
-    ],
-  },
-  {
     id: 'finance-stay',
-    tag: 'Arrangement 02',
-    name: 'Finance & Stay',
-    tagline: 'Zero capital. Perpetual passive income. We stay.',
+    tag: 'Arrangement 01',
+    name: 'Partner Financing',
+    tagline: 'Zero capital. Passive income and partnership',
     color: '#10b981',
     colorBg: 'rgba(16,185,129,0.06)',
     colorBorder: 'rgba(16,185,129,0.30)',
@@ -104,21 +85,40 @@ const PARTNER_ARRANGEMENTS = [
   },
   {
     id: 'plug-in',
-    tag: 'Arrangement 03',
-    name: 'Plug In',
-    tagline: 'You have the solar. We bring the management layer.',
+    tag: 'Arrangement 02',
+    name: 'Plug-In Partnership',
+    tagline: 'You own the system. We provide the smart controls and billing automation.',
     color: '#a855f7',
     colorBg: 'rgba(168,85,247,0.06)',
     colorBorder: 'rgba(168,85,247,0.25)',
     icon: PlugZap,
     upfront: 'Custom',
-    upfrontNote: 'Commission only — no hardware financing',
+    upfrontNote: 'Commissions only',
     outcome: 'Stop billing disputes & overloads from day one.',
     highlights: [
       'You provide existing solar (or buy independently)',
       'Gridlett installs Smart Controller (stays permanently)',
       'Automated billing, limits & tenant portal',
       'Commission-based — no upfront from Gridlett',
+    ],
+  },
+  {
+    id: 'finance-exit',
+    tag: 'Arrangement 03',
+    name: 'Financing Only',
+    tagline: 'We finance your solar. You own it after payoff.',
+    color: '#3b82f6',
+    colorBg: 'rgba(59,130,246,0.06)',
+    colorBorder: 'rgba(59,130,246,0.25)',
+    icon: TrendingUp,
+    upfront: '₦0',
+    upfrontNote: 'BNPL — full solar financed',
+    outcome: 'Full solar ownership at end of term. No more commission.',
+    highlights: [
+      'Gridlett installs panels, batteries & inverter',
+      'Controller operated by Gridlett during term',
+      'Costs paid via fixed monthly installments',
+      'At payoff: controller removed, solar is yours',
     ],
   },
 ]
@@ -169,7 +169,7 @@ export default function PricingClient() {
     <div className="relative z-10 flex-1 pt-32 pb-24 px-6 max-w-6xl mx-auto w-full">
       {/* Header */}
       <div className="text-center mb-10">
-        <span 
+        <span
           className="inline-flex items-center gap-2 text-xs font-semibold px-4 py-2 rounded-full mb-3"
           style={{ background: 'rgba(59,130,246,0.08)', border: '1px solid rgba(59,130,246,0.2)', color: '#60a5fa' }}
         >
@@ -177,7 +177,7 @@ export default function PricingClient() {
           Flexible Pricing Systems
         </span>
         <h1 className="font-display text-4xl md:text-5xl font-extrabold text-white leading-tight">
-          Structured plans for <br className="hidden sm:inline"/>
+          Structured plans for <br className="hidden sm:inline" />
           <span className="text-gradient-blue">every scale</span>
         </h1>
         <p className="mt-4 text-brand-text max-w-xl mx-auto text-sm md:text-base leading-relaxed">
@@ -190,21 +190,19 @@ export default function PricingClient() {
         <div className="bg-brand-navy/60 border border-brand-border/40 p-1.5 rounded-2xl flex gap-1.5 backdrop-blur-md">
           <button
             onClick={() => setActiveTab('subscribers')}
-            className={`flex items-center gap-2 px-6 py-3 rounded-xl font-display font-bold text-sm transition-all ${
-              activeTab === 'subscribers'
-                ? 'bg-blue-500 text-white shadow-md shadow-blue-500/25'
-                : 'text-brand-text hover:text-white'
-            }`}
+            className={`flex items-center gap-2 px-6 py-3 rounded-xl font-display font-bold text-sm transition-all ${activeTab === 'subscribers'
+              ? 'bg-blue-500 text-white shadow-md shadow-blue-500/25'
+              : 'text-brand-text hover:text-white'
+              }`}
           >
             Energy Plans
           </button>
           <button
             onClick={() => setActiveTab('hosts')}
-            className={`flex items-center gap-2 px-6 py-3 rounded-xl font-display font-bold text-sm transition-all ${
-              activeTab === 'hosts'
-                ? 'bg-blue-500 text-white shadow-md shadow-blue-500/25'
-                : 'text-brand-text hover:text-white'
-            }`}
+            className={`flex items-center gap-2 px-6 py-3 rounded-xl font-display font-bold text-sm transition-all ${activeTab === 'hosts'
+              ? 'bg-blue-500 text-white shadow-md shadow-blue-500/25'
+              : 'text-brand-text hover:text-white'
+              }`}
           >
             Property Partners
           </button>
@@ -212,7 +210,7 @@ export default function PricingClient() {
       </div>
 
       {/* Pricing Cards Grid */}
-      <div className="grid md:grid-cols-3 gap-6 items-stretch mb-16">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 items-stretch mb-16">
         {isLoading && activeTab === 'subscribers' ? (
           <>
             <PlanCardSkeleton />
@@ -224,15 +222,14 @@ export default function PricingClient() {
             const rich = PLAN_RICH_CONFIG[plan.sortOrder] || PLAN_RICH_CONFIG[1]
             const priceStr = plan.amount ? `₦${plan.amount.toLocaleString()}` : 'Free'
             const limitStr = plan.maxPowerDemandWatts ? `${plan.maxPowerDemandWatts.toLocaleString()} Watts Max` : 'Unlimited Limit'
-            
+
             return (
               <div
                 key={plan.id}
-                className={`glass-card rounded-3xl p-6 md:p-8 flex flex-col justify-between relative border transition-all duration-300 ${
-                  rich.popular 
-                    ? 'border-blue-500 shadow-[0_20px_50px_rgba(59,130,246,0.08)] md:-translate-y-2' 
-                    : 'border-brand-border/60 hover:border-brand-border'
-                }`}
+                className={`glass-card rounded-3xl p-6 md:p-8 flex flex-col justify-between relative border transition-all duration-300 ${rich.popular
+                  ? 'border-blue-500 shadow-[0_20px_50px_rgba(59,130,246,0.08)] md:-translate-y-2'
+                  : 'border-brand-border/60 hover:border-brand-border'
+                  }`}
               >
                 {rich.popular && (
                   <span className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-blue-500 text-white text-[10px] font-bold tracking-widest uppercase py-1 px-3.5 rounded-full shadow-lg">
@@ -255,7 +252,7 @@ export default function PricingClient() {
                       </span>
                       <span className="text-sm text-brand-muted font-semibold">/mo</span>
                     </div>
-                    <span 
+                    <span
                       className="inline-block px-3 py-1 rounded text-xs font-bold uppercase tracking-wider"
                       style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.08)', color: '#94a3b8' }}
                     >
@@ -312,13 +309,12 @@ export default function PricingClient() {
                 <div className="pt-4 mt-auto">
                   <Link
                     href="/#signup"
-                    className={`w-full flex items-center justify-center gap-2 py-4 rounded-2xl text-center font-bold text-sm font-display transition-all ${
-                      rich.popular
-                        ? 'bg-gradient-to-r from-blue-500 to-blue-600 text-white shadow-lg shadow-blue-500/20 hover:opacity-90'
-                        : 'border border-brand-border hover:border-brand-border/80 text-brand-text hover:text-white'
-                    }`}
+                    className={`w-full flex items-center justify-center gap-2 py-4 rounded-2xl text-center font-bold text-sm font-display transition-all ${rich.popular
+                      ? 'bg-gradient-to-r from-blue-500 to-blue-600 text-white shadow-lg shadow-blue-500/20 hover:opacity-90'
+                      : 'border border-brand-border hover:border-brand-border/80 text-brand-text hover:text-white'
+                      }`}
                   >
-                    Get Connected
+                    Subscribe now
                     <ArrowRight className="w-4 h-4" />
                   </Link>
                 </div>
@@ -328,17 +324,6 @@ export default function PricingClient() {
         ) : (
           // ── Partner Arrangements Tab ──
           <>
-            {/* Device ownership notice */}
-            <div
-              className="col-span-3 mb-2 rounded-2xl px-5 py-4 flex items-start gap-3 border"
-              style={{ background: 'rgba(59,130,246,0.05)', borderColor: 'rgba(59,130,246,0.2)' }}
-            >
-              <Shield className="w-4 h-4 text-blue-400 shrink-0 mt-0.5" />
-              <p className="text-xs text-brand-text leading-relaxed">
-                <span className="text-white font-semibold">The Gridlett Smart Controller always belongs to Gridlett</span> — in every arrangement. You never buy the device. You benefit from it.
-              </p>
-            </div>
-
             {PARTNER_ARRANGEMENTS.map((arr) => {
               const Icon = arr.icon
               return (

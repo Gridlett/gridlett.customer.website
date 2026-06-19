@@ -85,10 +85,10 @@ export default function AboutPage() {
                   In many parts of Nigeria, grid instability forces businesses and multi-family homes to rely heavily on costly diesel and petrol generators. These generators are noisy, pollute the air, and require constant, manual fuel management.
                 </p>
                 <p>
-                  When property managers try to transition to shared solar systems, they face a new headache: **the tragedy of the commons**. Without structure, one tenant turns on multiple air conditioners or high-load devices, draining the shared battery bank, overloading the inverter, and leaving everyone else in darkness.
+                  When property managers try to transition to shared solar systems, they face a new headache: <strong className="text-white font-bold">the tragedy of the commons</strong>. Without structure, one tenant turns on multiple air conditioners or high-load devices, draining the shared battery bank, overloading the inverter, and leaving everyone else in darkness.
                 </p>
                 <p>
-                  This leads to constant friction, disputes over diesel and solar bill-splitting, and unstable power grids. **Gridlett was built to change that.**
+                  This leads to constant friction, disputes over diesel and solar bill-splitting, and unstable power grids. <strong className="text-white font-bold">Gridlett was built to change that.</strong>
                 </p>
               </div>
             </div>
@@ -103,20 +103,20 @@ export default function AboutPage() {
                 The Gridlett Engine
               </h3>
               <p className="text-sm leading-relaxed mb-6 text-brand-text">
-                We developed a smart metering control layer and combined it with an automated subscription engine. Instead of unmonitored power sharing, Gridlett provisions clean solar energy under strict structure:
+                We developed a smart control layer combined with an automated subscription engine. Instead of unmonitored power sharing, Gridlett provisions clean solar energy under strict structure:
               </p>
               <ul className="space-y-3.5 text-sm">
                 <li className="flex items-start gap-2.5">
                   <span className="w-1.5 h-1.5 rounded-full bg-blue-400 mt-2 shrink-0" />
-                  <span>**Usage Boundaries**: The controller prevents tenants from overloading the shared inverter.</span>
+                  <span><strong className="text-white font-bold">Usage Boundaries</strong>: The controller prevents tenants from overloading the shared inverter.</span>
                 </li>
                 <li className="flex items-start gap-2.5">
                   <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 mt-2 shrink-0" />
-                  <span>**Fixed Subscriptions**: Tenants select a plan tier that fits their budget. No surprise bills.</span>
+                  <span><strong className="text-white font-bold">Fixed Subscriptions</strong>: Tenants select a plan tier that fits their budget. No surprise bills.</span>
                 </li>
                 <li className="flex items-start gap-2.5">
                   <span className="w-1.5 h-1.5 rounded-full bg-blue-400 mt-2 shrink-0" />
-                  <span>**Remote Monitoring**: Real-time telemetry provides property managers with full system diagnostics.</span>
+                  <span><strong className="text-white font-bold">Remote Monitoring</strong>: Real-time telemetry provides property managers with full system diagnostics.</span>
                 </li>
               </ul>
             </div>
