@@ -32,7 +32,6 @@ export default function Header() {
 
   const navLinks = [
     { label: 'How it works', href: '/#how-it-works' },
-    { label: 'Partners', href: '/partners' },
     { label: 'Pricing', href: '/pricing' },
     { label: 'About Us', href: '/about' },
     { label: 'FAQs', href: '/faq' },
